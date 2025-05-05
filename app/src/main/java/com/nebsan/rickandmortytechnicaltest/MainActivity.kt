@@ -4,7 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.nebsan.rickandmortytechnicaltest.presentation.ui.CharactersInfoScreen
+import com.nebsan.rickandmortytechnicaltest.presentation.ui.charactersDetail.CharactersDetailScreen
+import com.nebsan.rickandmortytechnicaltest.presentation.ui.charactersInfo.CharactersInfoScreen
 import com.nebsan.rickandmortytechnicaltest.ui.theme.RickAndMortyTechnicalTestTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -14,8 +15,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            RickAndMortyTechnicalTestTheme {
-                CharactersInfoScreen()
+            RickAndMortyTechnicalTestTheme(darkTheme = true) {
+                //CharactersInfoScreen()
+                CharactersDetailScreen()
             }
         }
     }
