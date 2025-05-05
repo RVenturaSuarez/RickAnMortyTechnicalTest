@@ -16,12 +16,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.nebsan.rickandmortytechnicaltest.presentation.ui.charactersInfo.components.CharactersList
-import com.nebsan.rickandmortytechnicaltest.presentation.ui.core.components.TextFieldCharacters
 import com.nebsan.rickandmortytechnicaltest.presentation.ui.charactersInfo.components.TopBarCharacters
 import com.nebsan.rickandmortytechnicaltest.presentation.viewmodel.CharactersViewModel
 
 @Composable
-fun CharactersInfoScreen(charactersViewModel: CharactersViewModel = hiltViewModel()) {
+fun CharactersInfoScreen(
+    charactersViewModel: CharactersViewModel = hiltViewModel(),
+    onDetailCharacter: (Int) -> Unit,
+) {
 
     val characters = charactersViewModel.characters.collectAsState().value
     var characterName by rememberSaveable { mutableStateOf("") }
@@ -34,10 +36,11 @@ fun CharactersInfoScreen(charactersViewModel: CharactersViewModel = hiltViewMode
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
-            TextFieldCharacters(
-                characterName = characterName,
-                characterNameChanged = { characterName = it })
-            CharactersList(characters = characters, modifier = Modifier.padding(horizontal = 20.dp))
+            CharactersList(
+                characters = characters,
+                onDetailCharacter = { characterId -> onDetailCharacter(characterId) },
+                modifier = Modifier.padding(horizontal = 20.dp)
+            )
         }
     }
 }
