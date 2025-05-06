@@ -3,12 +3,12 @@ package com.nebsan.rickandmortytechnicaltest.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.nebsan.rickandmortytechnicaltest.domain.model.CharacterInfo
 import com.nebsan.rickandmortytechnicaltest.domain.usecase.GetCharacterDetailInfoUseCase
 import com.nebsan.rickandmortytechnicaltest.domain.usecase.GetCharactersUseCase
 import com.nebsan.rickandmortytechnicaltest.presentation.ui.charactersDetail.CharacterDetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,12 +20,12 @@ import javax.inject.Inject
 class CharactersViewModel @Inject constructor(
     private val getCharactersUseCase: GetCharactersUseCase,
     private val getCharacterDetailInfoUseCase: GetCharacterDetailInfoUseCase,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) :
     ViewModel() {
 
     val characters: Flow<PagingData<CharacterInfo>> =
         getCharactersUseCase.getCharacters()
-            .cachedIn(viewModelScope)
 
     private val _characterDetailState =
         MutableStateFlow<CharacterDetailUiState>(CharacterDetailUiState.Loading)
@@ -33,7 +33,7 @@ class CharactersViewModel @Inject constructor(
 
 
     fun getInfoCharacter(characterId: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(ioDispatcher) {
             _characterDetailState.value = CharacterDetailUiState.Loading
 
             val result = getCharacterDetailInfoUseCase.getCharacterDetailInfo(characterId)
