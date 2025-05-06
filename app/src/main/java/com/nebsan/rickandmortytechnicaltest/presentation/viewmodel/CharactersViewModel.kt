@@ -2,13 +2,17 @@ package com.nebsan.rickandmortytechnicaltest.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nebsan.rickandmortytechnicaltest.domain.model.CharacterDetailInfo
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.nebsan.rickandmortytechnicaltest.domain.model.CharacterInfo
 import com.nebsan.rickandmortytechnicaltest.domain.usecase.GetCharacterDetailInfoUseCase
 import com.nebsan.rickandmortytechnicaltest.domain.usecase.GetCharactersUseCase
+import com.nebsan.rickandmortytechnicaltest.presentation.ui.charactersDetail.CharacterDetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,31 +23,34 @@ class CharactersViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    var characters = MutableStateFlow<List<CharacterInfo>>(emptyList())
-        private set
+    val characters: Flow<PagingData<CharacterInfo>> =
+        getCharactersUseCase.getCharacters()
+            .cachedIn(viewModelScope)
 
-    var selectedCharacter = MutableStateFlow<CharacterDetailInfo?>(null)
-        private set
+    private val _characterDetailState =
+        MutableStateFlow<CharacterDetailUiState>(CharacterDetailUiState.Loading)
+    val characterDetailState: StateFlow<CharacterDetailUiState> = _characterDetailState
 
-    init {
-        getCharacters()
-    }
-
-    private fun getCharacters() {
-        viewModelScope.launch(Dispatchers.IO) {
-            characters.value = getCharactersUseCase.getCharacters()
-        }
-    }
 
     fun getInfoCharacter(characterId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            selectedCharacter.value =
-                getCharacterDetailInfoUseCase.getCharacterDetailInfo(characterId)
+            _characterDetailState.value = CharacterDetailUiState.Loading
+
+            val result = getCharacterDetailInfoUseCase.getCharacterDetailInfo(characterId)
+
+            _characterDetailState.value = result.fold(
+                onSuccess = { character ->
+                    CharacterDetailUiState.Success(character)
+                },
+                onFailure = { error ->
+                    CharacterDetailUiState.Error("Error loading character: ${error.message}")
+                }
+            )
         }
     }
 
     fun clearInfoCharacter() {
-        selectedCharacter.value = null
+        _characterDetailState.value = CharacterDetailUiState.Loading
     }
 
 }

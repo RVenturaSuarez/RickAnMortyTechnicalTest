@@ -1,9 +1,11 @@
 package com.nebsan.rickandmortytechnicaltest.domain.repository
 
+import androidx.paging.PagingData
 import com.nebsan.rickandmortytechnicaltest.data.remote.dto.CharacterDetailDto
-import com.nebsan.rickandmortytechnicaltest.data.remote.dto.CharactersResponseDto
+import com.nebsan.rickandmortytechnicaltest.data.remote.dto.CharacterDto
+import kotlinx.coroutines.flow.Flow
 
 interface CharactersRepository {
-    suspend fun getCharacters(): CharactersResponseDto
-    suspend fun getCharacterDetailInfo(characterId: Int): CharacterDetailDto
+    fun getCharacters(): Flow<PagingData<CharacterDto>>
+    suspend fun getCharacterDetailInfo(characterId: Int): Result<CharacterDetailDto>
 }
