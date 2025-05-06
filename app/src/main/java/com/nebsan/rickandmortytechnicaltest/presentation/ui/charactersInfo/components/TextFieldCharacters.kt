@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nebsan.rickandmortytechnicaltest.R
 
@@ -62,5 +63,35 @@ fun TextFieldCharacters(characterName: String, characterNameChanged: (String) ->
             .fillMaxWidth()
             .padding(horizontal = 20.dp)
             .focusRequester(focusRequester)
+    )
+}
+
+
+@Composable
+@Preview
+fun TextFieldCharactersPreview() {
+
+    val characterName = "Search character..."
+
+    TextField(
+        value = characterName,
+        onValueChange = {},
+        placeholder = { Text(text = stringResource(R.string.search_character_label)) },
+        trailingIcon = {
+            if (characterName.isNotBlank()) {
+                IconButton(onClick = {
+                }) {
+                    Icon(
+                        imageVector = Icons.Default.Clear,
+                        contentDescription = null
+                    )
+                }
+            }
+        },
+        maxLines = 1,
+        shape = RoundedCornerShape(20.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)
     )
 }

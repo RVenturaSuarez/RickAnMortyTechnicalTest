@@ -13,11 +13,37 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nebsan.rickandmortytechnicaltest.R
 
 @Composable
 fun EpisodesSection(episodes: List<Int>) {
+    Column(modifier = Modifier.padding(20.dp)) {
+        Text(text = stringResource(R.string.episodes))
+
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(100.dp),
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
+            verticalArrangement = Arrangement.spacedBy(5.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+        ) {
+            items(episodes) { numberEpisode ->
+                Button(onClick = { }, enabled = false) {
+                    Text(text = numberEpisode.toString())
+                }
+            }
+        }
+    }
+}
+
+@Composable
+@Preview(showSystemUi = true)
+fun EpisodesSectionPreview() {
+    val episodes = listOf(1,2,3,4)
+
     Column(modifier = Modifier.padding(20.dp)) {
         Text(text = stringResource(R.string.episodes))
 

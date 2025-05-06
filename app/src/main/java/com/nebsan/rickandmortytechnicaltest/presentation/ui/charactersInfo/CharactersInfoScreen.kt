@@ -39,7 +39,7 @@ fun CharactersInfoScreen(
 ) {
 
     val characters = charactersViewModel.characters.collectAsLazyPagingItems()
-    var characterName = charactersViewModel.characterName.collectAsState().value
+    val characterName = charactersViewModel.characterName.collectAsState().value
 
     Scaffold(topBar = { TopBarCharacters() }) { paddingValues ->
         Column(

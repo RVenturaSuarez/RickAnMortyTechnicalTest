@@ -19,3 +19,4 @@ fun CharacterImageSection(image: String) {
         modifier = Modifier.size(300.dp)
     )
 }
+

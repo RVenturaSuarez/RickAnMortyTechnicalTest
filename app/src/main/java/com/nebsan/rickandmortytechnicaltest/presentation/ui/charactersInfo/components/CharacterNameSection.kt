@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -20,5 +21,22 @@ fun CharacterNameSection(name: String) {
             .fillMaxWidth()
     ) {
         Text(text = name, color = Color.White, modifier = Modifier.padding(vertical = 5.dp))
+    }
+}
+
+
+@Composable
+@Preview
+fun CharacterNameSection() {
+
+    val characterName = "Rick Sanchez"
+
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .background(Color.Black)
+            .fillMaxWidth()
+    ) {
+        Text(text = characterName, color = Color.White, modifier = Modifier.padding(vertical = 5.dp))
     }
 }
