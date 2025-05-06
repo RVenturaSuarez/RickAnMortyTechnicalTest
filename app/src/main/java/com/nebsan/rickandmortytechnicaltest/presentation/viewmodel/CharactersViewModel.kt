@@ -26,7 +26,7 @@ class CharactersViewModel @Inject constructor(
         private set
 
     init {
-        selectCharacter(1)
+        getCharacters()
     }
 
     private fun getCharacters() {
@@ -35,10 +35,15 @@ class CharactersViewModel @Inject constructor(
         }
     }
 
-    fun selectCharacter(id: Int) {
+    fun getInfoCharacter(characterId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            selectedCharacter.value = getCharacterDetailInfoUseCase.getCharacterDetailInfo(id)
+            selectedCharacter.value =
+                getCharacterDetailInfoUseCase.getCharacterDetailInfo(characterId)
         }
+    }
+
+    fun clearInfoCharacter() {
+        selectedCharacter.value = null
     }
 
 }

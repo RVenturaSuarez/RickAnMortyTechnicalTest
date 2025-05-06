@@ -10,11 +10,11 @@ import com.nebsan.rickandmortytechnicaltest.domain.model.CharacterInfo
 import com.nebsan.rickandmortytechnicaltest.presentation.ui.core.components.CharacterImageSection
 
 @Composable
-fun CharacterCard(characterInfo: CharacterInfo) {
+fun CharacterCard(characterInfo: CharacterInfo, onDetailCharacter: (Int) -> Unit) {
     OutlinedCard(
         Modifier
             .width(300.dp)
-            .clickable {}
+            .clickable { onDetailCharacter(characterInfo.id) }
     ) {
         CharacterImageSection(image = characterInfo.image)
         CharacterNameSection(name = characterInfo.name)
