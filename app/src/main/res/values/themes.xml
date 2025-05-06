@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="Theme.CustomSplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splashScreen</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/icon_splash_wrapper</item>
+        <item name="postSplashScreenTheme">@style/Theme.RickAndMortyTechnicalTest</item>
+
+        
+    </style>
+    
     <style name="Theme.RickAndMortyTechnicalTest" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>
