@@ -1,5 +1,7 @@
 package com.nebsan.rickandmortytechnicaltest.data.repository
 
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider
 import com.nebsan.rickandmortytechnicaltest.data.remote.CharactersApi
 import com.nebsan.rickandmortytechnicaltest.data.remote.dto.CharacterDetailDto
 import junit.framework.TestCase.assertEquals
@@ -18,13 +20,14 @@ import org.mockito.kotlin.whenever
 class CharactersRepositoryImplTest {
 
     private lateinit var repository: CharactersRepositoryImpl
-    private val charactersApi = mock<CharactersApi>() // Mock de la API
+    private val charactersApi = mock<CharactersApi>()
     private val dispatcher = StandardTestDispatcher()
+    private val context = mock<Context>()
 
     @Before
     fun setup() {
         Dispatchers.setMain(dispatcher)
-        repository = CharactersRepositoryImpl(charactersApi)
+        repository = CharactersRepositoryImpl(charactersApi, context)
     }
 
 

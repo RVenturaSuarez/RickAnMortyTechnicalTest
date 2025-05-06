@@ -2,6 +2,7 @@ package com.nebsan.rickandmortytechnicaltest.presentation.viewmodel
 
 import com.nebsan.rickandmortytechnicaltest.domain.model.CharacterDetailInfo
 import com.nebsan.rickandmortytechnicaltest.domain.usecase.GetCharacterDetailInfoUseCase
+import com.nebsan.rickandmortytechnicaltest.domain.usecase.GetCharactersFilteredByNameUseCase
 import com.nebsan.rickandmortytechnicaltest.domain.usecase.GetCharactersUseCase
 import com.nebsan.rickandmortytechnicaltest.presentation.ui.charactersDetail.CharacterDetailUiState
 import kotlinx.coroutines.Dispatchers
@@ -23,13 +24,20 @@ class CharactersViewModelTest {
     private lateinit var viewModel: CharactersViewModel
     private val getCharactersUseCase = mock<GetCharactersUseCase>()
     private val getCharacterDetailInfoUseCase = mock<GetCharacterDetailInfoUseCase>()
+    private val getCharactersFilteredByNameUseCase = mock<GetCharactersFilteredByNameUseCase>()
     private val dispatcher = StandardTestDispatcher()
+
 
     @Before
     fun setup() {
         Dispatchers.setMain(dispatcher)
         viewModel =
-            CharactersViewModel(getCharactersUseCase, getCharacterDetailInfoUseCase, dispatcher)
+            CharactersViewModel(
+                getCharactersUseCase,
+                getCharacterDetailInfoUseCase,
+                getCharactersFilteredByNameUseCase,
+                dispatcher
+            )
     }
 
 
@@ -42,7 +50,7 @@ class CharactersViewModelTest {
             status = "Alive",
             specie = "Human",
             gender = "Male",
-            image = "https://rick.com/rick.png",
+            image = "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
             episodes = listOf(1, 2)
         )
         val result = Result.success(characterDetailInfo)

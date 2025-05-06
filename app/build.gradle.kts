@@ -56,6 +56,7 @@ dependencies {
 
     // Dagger Hilt
     implementation(libs.hilt.android)
+    implementation(libs.core.ktx)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
@@ -68,6 +69,7 @@ dependencies {
 
     // Paging
     implementation(libs.androidx.paging.compose)
+    implementation(libs.androidx.paging.runtime)
 
     // SplashScreen
     implementation(libs.androidx.core.splashscreen)
@@ -93,4 +95,7 @@ dependencies {
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockk)
     testImplementation(libs.mockito.kotlin)
+
+    // Paging
+    testImplementation(libs.androidx.paging.common)
 }

@@ -6,6 +6,6 @@ import com.nebsan.rickandmortytechnicaltest.data.remote.dto.CharacterDto
 import kotlinx.coroutines.flow.Flow
 
 interface CharactersRepository {
-    fun getCharacters(): Flow<PagingData<CharacterDto>>
+    fun getCharacters(characterName: String? = null): Flow<PagingData<CharacterDto>>
     suspend fun getCharacterDetailInfo(characterId: Int): Result<CharacterDetailDto>
 }

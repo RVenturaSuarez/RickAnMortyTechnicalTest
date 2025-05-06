@@ -1,11 +1,13 @@
 package com.nebsan.rickandmortytechnicaltest.di
 
+import android.content.Context
 import com.nebsan.rickandmortytechnicaltest.data.remote.CharactersApi
 import com.nebsan.rickandmortytechnicaltest.data.repository.CharactersRepositoryImpl
 import com.nebsan.rickandmortytechnicaltest.domain.repository.CharactersRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +18,13 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+
+    @Provides
+    @Singleton
+    fun provideContext(@ApplicationContext appContext: Context) : Context {
+        return appContext
+    }
 
     @Provides
     @Singleton
@@ -29,8 +38,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCharactersRepository(charactersApi: CharactersApi) : CharactersRepository {
-        return CharactersRepositoryImpl(charactersApi)
+    fun provideCharactersRepository(charactersApi: CharactersApi, context: Context) : CharactersRepository {
+        return CharactersRepositoryImpl(charactersApi, context)
     }
 
     @Provides

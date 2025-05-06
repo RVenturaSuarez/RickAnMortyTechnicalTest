@@ -13,10 +13,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -27,9 +24,14 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.nebsan.rickandmortytechnicaltest.R
 import com.nebsan.rickandmortytechnicaltest.presentation.ui.charactersInfo.components.CharactersList
+import com.nebsan.rickandmortytechnicaltest.presentation.ui.charactersInfo.components.TextFieldCharacters
 import com.nebsan.rickandmortytechnicaltest.presentation.ui.charactersInfo.components.TopBarCharacters
 import com.nebsan.rickandmortytechnicaltest.presentation.viewmodel.CharactersViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
+@OptIn(FlowPreview::class)
+@ExperimentalCoroutinesApi
 @Composable
 fun CharactersInfoScreen(
     charactersViewModel: CharactersViewModel = hiltViewModel(),
@@ -37,8 +39,7 @@ fun CharactersInfoScreen(
 ) {
 
     val characters = charactersViewModel.characters.collectAsLazyPagingItems()
-
-    var characterName by rememberSaveable { mutableStateOf("") }
+    var characterName = charactersViewModel.characterName.collectAsState().value
 
     Scaffold(topBar = { TopBarCharacters() }) { paddingValues ->
         Column(
@@ -62,8 +63,18 @@ fun CharactersInfoScreen(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier.padding(20.dp)
                         ) {
+                            TextFieldCharacters(
+                                characterName = characterName,
+                                characterNameChanged = {
+                                    charactersViewModel.onCharacterNameChanged(it)
+                                }
+                            )
+                            Spacer(modifier = Modifier.weight(1f))
                             Text(
-                                text = stringResource(id = R.string.message_error, e.error.message ?: "Unknown"),
+                                text = stringResource(
+                                    id = R.string.message_error,
+                                    e.error.message ?: "Unknown"
+                                ),
                                 modifier = Modifier.fillMaxWidth(),
                                 textAlign = TextAlign.Center
                             )
@@ -71,16 +82,29 @@ fun CharactersInfoScreen(
                             Button(onClick = { characters.retry() }) {
                                 Text(stringResource(id = R.string.btn_retry))
                             }
+                            Spacer(modifier = Modifier.weight(1f))
                         }
                     }
                 }
 
                 else -> {
-                    CharactersList(
-                        characters = characters,
-                        onDetailCharacter = onDetailCharacter,
-                        modifier = Modifier.padding(horizontal = 20.dp)
-                    )
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(5.dp)
+                    ) {
+                        TextFieldCharacters(
+                            characterName = characterName,
+                            characterNameChanged = {
+                                charactersViewModel.onCharacterNameChanged(it)
+                            }
+                        )
+                        CharactersList(
+                            characters = characters,
+                            onDetailCharacter = onDetailCharacter,
+                            modifier = Modifier.padding(horizontal = 20.dp)
+                        )
+                    }
+
                 }
             }
         }

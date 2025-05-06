@@ -2,7 +2,12 @@
     <string name="app_name">RickAndMortyTechnicalTest</string>
     <string name="title_topBarCharacters">Characters</string>
 
+    <string name="search_character_label">Search character…</string>
+    <string name="episodes">Episodes:</string>
     <string name="message_error">Error: %1$s</string>
     <string name="btn_retry">Retry</string>
+
+    <string name="error_404">No characters found with that name.</string>
+    <string name="other_error_http">Failed to load characters: %1$d</string>
 
 </resources>

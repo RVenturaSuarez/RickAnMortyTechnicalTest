@@ -1,4 +1,4 @@
-package com.nebsan.rickandmortytechnicaltest.presentation.ui.core.components
+package com.nebsan.rickandmortytechnicaltest.presentation.ui.charactersInfo.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,9 +18,11 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
+import com.nebsan.rickandmortytechnicaltest.R
 
 @Composable
 fun TextFieldCharacters(characterName: String, characterNameChanged: (String) -> Unit) {
@@ -31,7 +33,7 @@ fun TextFieldCharacters(characterName: String, characterNameChanged: (String) ->
     TextField(
         value = characterName,
         onValueChange = { characterNameChanged(it) },
-        placeholder = { Text(text = "Search...") },
+        placeholder = { Text(text = stringResource(R.string.search_character_label)) },
         trailingIcon = {
             if (characterName.isNotBlank()) {
                 IconButton(onClick = {

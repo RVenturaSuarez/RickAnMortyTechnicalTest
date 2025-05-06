@@ -1,5 +1,6 @@
 package com.nebsan.rickandmortytechnicaltest.data.repository
 
+import android.content.Context
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -11,19 +12,22 @@ import com.nebsan.rickandmortytechnicaltest.domain.repository.CharactersReposito
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class CharactersRepositoryImpl @Inject constructor(private val charactersApi: CharactersApi) :
+class CharactersRepositoryImpl @Inject constructor(
+    private val charactersApi: CharactersApi,
+    private val context: Context,
+) :
     CharactersRepository {
 
     companion object {
-        const val PAGE_SIZE = 10
+        const val PAGE_SIZE = 20
         const val PREFETCH_ITEMS = 3
     }
 
 
-    override fun getCharacters(): Flow<PagingData<CharacterDto>> {
+    override fun getCharacters(characterName: String?): Flow<PagingData<CharacterDto>> {
         return Pager(config = PagingConfig(pageSize = PAGE_SIZE, prefetchDistance = PREFETCH_ITEMS),
             pagingSourceFactory = {
-                CharacterPagingSource(charactersApi)
+                CharacterPagingSource(charactersApi, characterName, context)
             }).flow
     }
 
