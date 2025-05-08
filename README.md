@@ -34,7 +34,7 @@ La app se desarrolló aplicando buenas prácticas de Clean Architecture, patrón
 - **Paginación:** Paging 3
 - **Cliente HTTP:** Retrofit + Gson
 - **Corrutinas:** Kotlin Coroutines + Flow/StateFlow
-- **Navegación:** Navigation Compose
+- **Navegación:** Navigation Compose with Type-safe
 - **Pruebas:** JUnit + Mockito (unitarias)
 - **CI:** GitHub Actions
 
@@ -59,6 +59,7 @@ RickAnMortyTechnicalTest
 │   │   ├── ui
 │   │   ├── viewmodel
 │   ├── di
+│   ├── common
 ```
 
 ### Requisitos previos
