@@ -50,7 +50,7 @@ class GetCharacterDetailInfoUseCaseTest {
         whenever(charactersRepository.getCharacterDetailInfo(characterId)).thenReturn(Result.success(characterDetailDto))
 
         // THEN
-        val result = getCharacterDetailInfoUseCase.getCharacterDetailInfo(characterId)
+        val result = getCharacterDetailInfoUseCase(characterId)
         assertTrue(result.isSuccess)
         assertEquals(expected, result.getOrNull())
     }
@@ -64,7 +64,7 @@ class GetCharacterDetailInfoUseCaseTest {
 
         // WHEN
         whenever(charactersRepository.getCharacterDetailInfo(characterId)).thenReturn(Result.failure(exception))
-        val result = getCharacterDetailInfoUseCase.getCharacterDetailInfo(characterId)
+        val result = getCharacterDetailInfoUseCase(characterId)
 
         // THEN
         assertTrue(result.isFailure)

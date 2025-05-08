@@ -12,7 +12,7 @@ import javax.inject.Inject
 class GetCharactersFilteredByNameUseCase @Inject constructor(
     private val charactersRepository: CharactersRepository,
 ) {
-    fun getCharactersFilteredByName(characterName: String): Flow<PagingData<CharacterInfo>> {
+    operator fun invoke(characterName: String): Flow<PagingData<CharacterInfo>> {
         return charactersRepository.getCharacters(characterName)
             .map { pagingData ->
                 pagingData.map { characterDto -> characterDto.toDomain() }

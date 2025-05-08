@@ -1,7 +1,6 @@
 package com.nebsan.rickandmortytechnicaltest.data.repository
 
-import android.content.Context
-import androidx.test.core.app.ApplicationProvider
+import com.nebsan.rickandmortytechnicaltest.common.TestDispatcherProvider
 import com.nebsan.rickandmortytechnicaltest.data.remote.CharactersApi
 import com.nebsan.rickandmortytechnicaltest.data.remote.dto.CharacterDetailDto
 import junit.framework.TestCase.assertEquals
@@ -22,12 +21,12 @@ class CharactersRepositoryImplTest {
     private lateinit var repository: CharactersRepositoryImpl
     private val charactersApi = mock<CharactersApi>()
     private val dispatcher = StandardTestDispatcher()
-    private val context = mock<Context>()
+    private val dispatcherProvider = TestDispatcherProvider(io = dispatcher)
 
     @Before
     fun setup() {
         Dispatchers.setMain(dispatcher)
-        repository = CharactersRepositoryImpl(charactersApi, context)
+        repository = CharactersRepositoryImpl(charactersApi, dispatcherProvider)
     }
 
 

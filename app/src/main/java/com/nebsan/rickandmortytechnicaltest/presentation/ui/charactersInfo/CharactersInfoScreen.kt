@@ -23,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.nebsan.rickandmortytechnicaltest.R
+import com.nebsan.rickandmortytechnicaltest.domain.model.ResponseError
 import com.nebsan.rickandmortytechnicaltest.presentation.ui.charactersInfo.components.CharactersList
 import com.nebsan.rickandmortytechnicaltest.presentation.ui.charactersInfo.components.TextFieldCharacters
 import com.nebsan.rickandmortytechnicaltest.presentation.ui.charactersInfo.components.TopBarCharacters
@@ -35,7 +36,7 @@ import kotlinx.coroutines.FlowPreview
 @Composable
 fun CharactersInfoScreen(
     charactersViewModel: CharactersViewModel = hiltViewModel(),
-    onDetailCharacter: (Int) -> Unit,
+    onNavigateToDetail: (Int) -> Unit,
 ) {
 
     val characters = charactersViewModel.characters.collectAsLazyPagingItems()
@@ -49,6 +50,14 @@ fun CharactersInfoScreen(
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
+            TextFieldCharacters(
+                characterName = characterName,
+                characterNameChanged = {
+                    charactersViewModel.onCharacterNameChanged(it)
+                }
+            )
+
+
             when (characters.loadState.refresh) {
                 is LoadState.Loading -> {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -63,18 +72,21 @@ fun CharactersInfoScreen(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier.padding(20.dp)
                         ) {
-                            TextFieldCharacters(
-                                characterName = characterName,
-                                characterNameChanged = {
-                                    charactersViewModel.onCharacterNameChanged(it)
-                                }
-                            )
                             Spacer(modifier = Modifier.weight(1f))
+
+                            val errorMessage = when (val error = e.error) {
+                                is ResponseError.NotFound -> stringResource(R.string.character_not_found)
+                                is ResponseError.Network -> stringResource(R.string.network_error)
+                                is ResponseError.HttpError -> stringResource(
+                                    R.string.http_error,
+                                    error.code
+                                )
+
+                                else -> stringResource(R.string.unknown_error)
+                            }
+
                             Text(
-                                text = stringResource(
-                                    id = R.string.message_error,
-                                    e.error.message ?: "Unknown"
-                                ),
+                                text = errorMessage,
                                 modifier = Modifier.fillMaxWidth(),
                                 textAlign = TextAlign.Center
                             )
@@ -92,15 +104,9 @@ fun CharactersInfoScreen(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(5.dp)
                     ) {
-                        TextFieldCharacters(
-                            characterName = characterName,
-                            characterNameChanged = {
-                                charactersViewModel.onCharacterNameChanged(it)
-                            }
-                        )
                         CharactersList(
                             characters = characters,
-                            onDetailCharacter = onDetailCharacter,
+                            onDetailCharacter = { characterId -> onNavigateToDetail(characterId) },
                             modifier = Modifier.padding(horizontal = 20.dp)
                         )
                     }

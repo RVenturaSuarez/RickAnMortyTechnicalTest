@@ -60,7 +60,7 @@ class GetCharactersUseCaseTest {
             workerDispatcher = testDispatcher
         )
 
-        val flow = getCharactersUseCase.getCharacters()
+        val flow = getCharactersUseCase()
         val pagingData = flow.first()
         differ.submitData(pagingData)
 

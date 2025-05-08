@@ -9,5 +9,9 @@
 
     <string name="error_404">No characters found with that name.</string>
     <string name="other_error_http">Failed to load characters: %1$d</string>
+    <string name="character_not_found">Character not found</string>
+    <string name="network_error">Network error</string>
+    <string name="http_error">HTTP Error:</string>
+    <string name="unknown_error">Unknown error</string>
 
 </resources>

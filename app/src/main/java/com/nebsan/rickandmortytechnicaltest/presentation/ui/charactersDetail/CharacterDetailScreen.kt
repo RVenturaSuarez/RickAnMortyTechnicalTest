@@ -29,18 +29,18 @@ import com.nebsan.rickandmortytechnicaltest.presentation.ui.charactersDetail.com
 import com.nebsan.rickandmortytechnicaltest.presentation.ui.charactersDetail.components.EpisodesSection
 import com.nebsan.rickandmortytechnicaltest.presentation.ui.charactersDetail.components.TopBarDetailCharacter
 import com.nebsan.rickandmortytechnicaltest.presentation.ui.core.components.CharacterImageSection
-import com.nebsan.rickandmortytechnicaltest.presentation.viewmodel.CharactersViewModel
+import com.nebsan.rickandmortytechnicaltest.presentation.viewmodel.CharacterDetailViewModel
 
 @Composable
 fun CharacterDetailScreen(
-    charactersViewModel: CharactersViewModel = hiltViewModel(),
+    characterDetailViewModel: CharacterDetailViewModel = hiltViewModel(),
     characterId: Int,
     onBack: () -> Unit,
 ) {
-    val uiState by charactersViewModel.characterDetailState.collectAsState()
+    val uiState by characterDetailViewModel.characterDetailState.collectAsState()
 
     LaunchedEffect(Unit) {
-        charactersViewModel.getInfoCharacter(characterId)
+        characterDetailViewModel.getInfoCharacter(characterId)
     }
 
 
@@ -49,7 +49,7 @@ fun CharacterDetailScreen(
             characterName = if (uiState is CharacterDetailUiState.Success) (uiState as CharacterDetailUiState.Success).character.name else "",
             onBack = {
                 onBack()
-                charactersViewModel.clearInfoCharacter()
+                characterDetailViewModel.clearInfoCharacter()
             }
         )
     }) { paddingValues ->
@@ -91,7 +91,7 @@ fun CharacterDetailScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(text = error, color = Color.Red, textAlign = TextAlign.Center)
-                    Button(onClick = { charactersViewModel.getInfoCharacter(characterId) }) {
+                    Button(onClick = { characterDetailViewModel.getInfoCharacter(characterId) }) {
                         Text(text = stringResource(id = R.string.btn_retry))
                     }
                 }
